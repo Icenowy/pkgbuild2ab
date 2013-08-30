@@ -1,0 +1,26 @@
+. PKGBUILD
+if [ ! -e `basename $source` ]
+then
+wget $source
+fi
+
+mkdir -p abdist
+
+srcdir=`pwd`
+pkgdir=`pwd`/abdist
+
+tar xvf `basename $source`
+if LC_ALL=C type build | grep function
+then
+	build
+fi
+if LC_ALL=C type package | grep function
+then
+        package
+fi
+if [ -d abdist/usr/lib/systemd/system ]
+then
+	mkdir -p abdist/lib/systemd/system
+	mv abdist/usr/lib/systemd/system/* abdist/lib/systemd/
+fi
+

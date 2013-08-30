@@ -1,0 +1,14 @@
+. ./PKGBUILD
+mkdir -p autobuild
+mkdir -p autobuild/override/DEBIAN
+for i in ${backup[@]}; do echo $i; done > autobuild/override/DEBIAN/conffiles
+pkgdep="`for i in ${depends[@]}; do echo $i; done`"
+cat > autobuild/defines << EOF
+PKGNAME="$pkgname"
+PKGVER="$pkgver"
+PKGDES="$pkgdesc"
+#FIXME:PKGSEC
+PKGSEC=
+PKGDEP="$pkgdep"
+EOF
+cp ab-build autobuild/build
